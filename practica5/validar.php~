@@ -1,0 +1,33 @@
+<?php
+	session_start();
+	if(isset($_POST["usuario"],$_POST["pass"]) && $_POST["usuario"]!="" && $_POST["pass"]!=""){
+		//isset es una función sobrecargada que permite recibir multiples parámetros para evitar hacer validaciones valor por valor y unirlo con operadores lógicos
+		if($_POST["usuario"]=="admin" && $_POST["pass"]="1234"){
+			$_SESSION["usuario"]=$_POST["usuario"];//Creo la sesión simplemente asignandola a la superglobal $_SESSION
+
+		?>
+			<script>
+				document.location.href="menu.php";
+			</script>
+		<?php		
+		}
+		else{
+		?> 
+			<script>
+				alert("Usuario o password invalidos");//Permite abrir ventanas emergentes con un texto con JS
+				document.location.href="login.php";
+			</script>
+		<?php
+		}
+
+	}
+	else{
+	?>
+		<script>
+			alert("No se ha logeado nunca o coloco datos en blanco al ingresar");
+			document.location.href="login.php";
+		</script>
+	<?php
+	}
+
+?>

@@ -1,0 +1,19 @@
+<?php
+	//Para poder destruir nuestra sesión primero tenemos que iniciar de nuevo el objeto de sesión, para después, destruirlo
+	session_start();
+	session_unset();//session_unset, se encarga de desreferenciar la sesión
+	
+	
+	setcookie("usuario","",time()-365*24*60*60);//Para hacer que la cookie desaparezca, cambio su contenido a nulo y le doy una fecha en el pasado, eso hará que el navegador la elimine de manera automática
+	if(ini_get("session.use_cookies")){//A pesar de que session es un objeto en memoria RAM, también puede crear cookies para su respaldo, por lo que es necesario verificar si creó cookies y las elimino
+		$parametros=session_get_cookie_params(); //Con esta instrucción obtenemos los parámetros de cookies creadas por el objeto session
+		setcookie(session_name(),"",time()-365*24*60*60,$parametros["path"],$parametros["domain"],$parametros["secure"],$parametros["domain"],$parametros["http-only"]);//En esta ocasión, usamos todos los parámetros de setcookie para asegurarnos de eliminarla	
+		//si nos interesa conocer otros parámetros de la cookie de sesión, podriamos usar un foreach, en todo caso, la funcion session_name retorna el nombre de la sesión, después colocamos el contenido en nulo, ponemos un tiempo anterior en la vigencia, y usamos los parámetros para asegurarnos de eliminar la cookie correcta
+	}
+
+	//Al final usamos session_destroy() para eliminar de todas las maneras la sesión
+	session_destroy();
+?>
+<script>
+	document.location.href="login.php";
+</script>
